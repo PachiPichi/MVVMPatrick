@@ -11,7 +11,7 @@ import com.example.mvvmpatrick.di.AppModule
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityMainBinding
+    private val binding : ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     private val viewModel : MainViewModel by lazy { AppModule.presidenteMainViewModel() }
 
@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -38,10 +37,12 @@ class MainActivity : AppCompatActivity() {
     private fun setupEventos() {
         binding.button.setOnClickListener {
 
+            binding.textView.text = "Quieres ser presidente?"
+
         }
     }
 
     private fun observarEstado() {
-        TODO("Not yet implemented")
+
     }
 }
