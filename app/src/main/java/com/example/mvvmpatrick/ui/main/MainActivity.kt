@@ -1,6 +1,7 @@
 package com.example.mvvmpatrick.ui.main
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -36,13 +37,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupEventos() {
         binding.button.setOnClickListener {
-
-            binding.textView.text = "Quieres ser presidente?"
+            viewModel.handleDamePresidente()
 
         }
     }
 
     private fun observarEstado() {
+        viewModel.state.observe(this, {state ->
+            state?.presidente.let {
+                binding.textView.text = state.presidente
+            }
+            state?.error?.let {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
 
+            }
+        })
     }
 }
