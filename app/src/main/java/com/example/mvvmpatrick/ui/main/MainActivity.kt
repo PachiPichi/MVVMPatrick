@@ -3,9 +3,12 @@ package com.example.mvvmpatrick.ui.main
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mvvmpatrick.R
 import com.example.mvvmpatrick.databinding.ActivityMainBinding
 import com.example.mvvmpatrick.di.AppModule
@@ -14,7 +17,11 @@ class MainActivity : AppCompatActivity() {
 
     private val binding : ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
-    private val viewModel : MainViewModel by lazy { AppModule.presidenteMainViewModel() }
+    private val viewModel : MainViewModel by viewModels {
+        MainViewModel.MainViewModelFactory(
+            AppModule.damePresidenteUseCase
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -29,12 +36,18 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        configRecycler()
         observarEstado()
 
         setupEventos()
 
     }
 
+    private fun configRecycler(){
+        binding.listado.layoutManager = LinearLayoutManager(this)
+
+
+    }
     private fun setupEventos() {
         binding.button.setOnClickListener {
             viewModel.handleDamePresidente()
