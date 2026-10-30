@@ -45,6 +45,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun configRecycler(){
         binding.listado.layoutManager = LinearLayoutManager(this)
+        adapter = PoliticoAdapter({politico ->
+            viewModel.handleDelete(politico)
+        })
+        binding.listado.adapter = adapter
 
 
     }
